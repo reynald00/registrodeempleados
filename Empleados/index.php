@@ -1,3 +1,30 @@
+<?php
+  $txtID=(isset($_POST['txtID']))?$_POST['txtID']:"";
+  $txtNombre=(isset($_POST['txtNombre']))?$_POST['txtNombre']:"";
+  $txtApellidoP=(isset($_POST['txtApellidoP']))?$_POST['txtApellidoP']:"";
+  $txtApellidoM=(isset($_POST['txtApellidoM']))?$_POST['txtApellidoM']:"";
+  $txtCedula=(isset($_POST['txtCedula']))?$_POST['txtCedula']:"";
+  $txtCorreo=(isset($_POST['txtCorreo']))?$_POST['txtCorreo']:"";
+  $txtFoto=(isset($_POST['txtFoto']))?$_POST['txtFoto']:"";
+
+  $accion=(isset($_POST['accion']))?$_POST['accion']:"";
+
+  switch($accion){
+      case "btnAgregar":
+        echo "Presionaste el btnAgregar";
+      break;
+      case "btnModificar":
+       echo "Presionaste el btnModificar";
+      break;
+      case "btnEliminar":
+        echo "Presionaste el btnEliminar";
+      break;
+      case "btnCancelar":
+        echo "Presionaste el btnCancelar";
+      break;
+  }
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -18,31 +45,31 @@
     <form action="" method="post" enctype="multipart/form-data">
       
       <label for="">ID:</label>
-      <input type="text" name="txtID" placeholder="" id="txtID" required="">
+      <input type="text" name="txtID" value="<?php echo $txtID;?>" placeholder="" id="txtID" required="">
       <br>
 
       <label for="">Nombres:</label>
-      <input type="text" name="txtNombre" placeholder="" id="txtNombre" required="">
+      <input type="text" name="txtNombre" value="<?php echo $txtNombre;?>" placeholder="" id="txtNombre" required="">
       <br>
 
       <label for="">Apellido Paterno:</label>
-      <input type="text" name="txtApellidoP" placeholder="" id="txtApellidoP" required="">
+      <input type="text" name="txtApellidoP" value="<?php echo $txtApellidoP;?>" placeholder="" id="txtApellidoP" required="">
       <br>
 
       <label for="">Apellido Materno:</label>
-      <input type="text" name="txtApellidoM" placeholder="" id="txtApellidoM" required="">
+      <input type="text" name="txtApellidoM" value="<?php echo $txtApellidoM;?>" placeholder="" id="txtApellidoM" required="">
       <br>
 
       <label for="">Cédula:</label>
-      <input type="text" name="txtCedula" placeholder="" id="txtCedula" required="">
+      <input type="text" name="txtCedula" value="<?php echo $txtCedula;?>" placeholder="" id="txtCedula" required="">
       <br>
 
       <label for="">Correo:</label>
-      <input type="text" name="txtCorreo" placeholder="" id="txtCorreo" required="">
+      <input type="text" name="txtCorreo" value="<?php echo $txtCorreo;?>" placeholder="" id="txtCorreo" required="">
       <br>
 
       <label for="">Foto:</label>
-      <input type="text" name="txtFoto" placeholder="" id="txtFoto" required="">
+      <input type="text" name="txtFoto" value="<?php echo $txtFoto;?>" placeholder="" id="txtFoto" required="">
       <br>
 
       <button value="btnAgregar" type="submit" name="accion">Agregar</button>
