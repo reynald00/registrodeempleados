@@ -1,4 +1,5 @@
 <?php
+
   $txtID=(isset($_POST['txtID']))?$_POST['txtID']:"";
   $txtNombre=(isset($_POST['txtNombre']))?$_POST['txtNombre']:"";
   $txtApellidoP=(isset($_POST['txtApellidoP']))?$_POST['txtApellidoP']:"";
@@ -7,10 +8,26 @@
   $txtCorreo=(isset($_POST['txtCorreo']))?$_POST['txtCorreo']:"";
   $txtFoto=(isset($_POST['txtFoto']))?$_POST['txtFoto']:"";
 
+
   $accion=(isset($_POST['accion']))?$_POST['accion']:"";
+
+  include ("../Conexion/conexion.php");
 
   switch($accion){
       case "btnAgregar":
+
+          $sentencia=$pdo->prepare("INSERT INTO empleados(Nombre,ApellidoPaterno,ApellidoMaterno,Cedula,Correo,Foto)
+            VALUES (:Nombre,:ApellidoPaterno,:ApellidoMaterno,:Cedula,:Correo,:Foto)");
+
+            $sentencia->bindParam(':Nombre',$txtNombre);
+            $sentencia->bindParam(':ApellidoPaterno',$txtApellidoP);
+            $sentencia->bindParam(':ApellidoMaterno',$txtApellidoM);
+            $sentencia->bindParam(':Cedula',$txtCedula);
+            $sentencia->bindParam(':Correo',$txtCedula);
+            $sentencia->bindParam(':Foto',$txtFoto);
+
+            $sentencia->execute();
+
         echo "Presionaste el btnAgregar";
       break;
       case "btnModificar":
@@ -23,6 +40,7 @@
         echo "Presionaste el btnCancelar";
       break;
   }
+  
 ?>
 
 <!doctype html>
