@@ -31,6 +31,26 @@
         echo "Presionaste el btnAgregar";
       break;
       case "btnModificar":
+
+      $sentencia=$pdo->prepare("UPDATE empleados SET
+        Nombre=:Nombre,
+        ApellidoPaterno=:ApellidoPaterno,
+        ApellidoMaterno=:ApellidoMaterno,
+        Cedula=:Cedula,
+        Correo=:Correo,
+        Foto=:Foto WHERE
+        id=:id");
+            
+
+            $sentencia->bindParam(':Nombre',$txtNombre);
+            $sentencia->bindParam(':ApellidoPaterno',$txtApellidoP);
+            $sentencia->bindParam(':ApellidoMaterno',$txtApellidoM);
+            $sentencia->bindParam(':Cedula',$txtCedula);
+            $sentencia->bindParam(':Correo',$txtCedula);
+            $sentencia->bindParam(':Foto',$txtFoto);
+            $sentencia->bindParam(':id',$txtID);
+
+            $sentencia->execute();
        echo "Presionaste el btnModificar";
       break;
       case "btnEliminar":
@@ -40,10 +60,13 @@
         echo "Presionaste el btnCancelar";
       break;
   }
-    
+
     $sentencia=$pdo->prepare("SELECT * FROM  `empleados` WHERE 1");
+
     $sentencia->execute();
+
     $listaEmpleados=$sentencia->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!doctype html>
@@ -101,31 +124,48 @@
     </form>
 
     <div class="row">
-      <table>
         
-        <thead>
-          <tr>
-            <th>Foto</th>
-            <th>Nombre Completo</th>
-            <th>Cédula o Pasaporte</th>
-            <th>Correo</th>
-            <th>Acción</th>
-          </tr>
-        </thead>
-        <?php foreach ($listaEmpleados as $empleado) {?>
-          <tr>
+        <table>
+          <thead>
+            <tr>
+              <th>Foto</th>
+              <th>Nombre Completo</th>
+              <th>Cédula o Pasaporte</th>
+              <th>Correo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+
+          <?php foreach($listaEmpleados as $empleado){ ?>
+            <tr>
               <td><?php echo $empleado['Foto']; ?></td>
               <td><?php echo $empleado['Nombre']; ?> <?php echo $empleado['ApellidoPaterno']; ?> <?php echo $empleado['ApellidoMaterno']; ?></td>
               <td><?php echo $empleado['Cedula']; ?></td>
               <td><?php echo $empleado['Correo']; ?></td>
-              <td><input type="button" value="Seleccionar" name="accion"></td>
-          </tr>
+              
+              <td>
 
-        <?php } ?>
+                <form action="" method="post">
 
+                  <input type="hidden" name="txtID" value="<?php echo $empleado['ID']; ?>">
+                  <input type="hidden" name="txtNombre" value="<?php echo $empleado['Nombre']; ?>">
+                  <input type="hidden" name="txtApellidoP" value="<?php echo $empleado['ApellidoPaterno']; ?>">
+                  <input type="hidden" name="txtApellidoM" value="<?php echo $empleado['ApellidoMaterno']; ?>">
+                  <input type="hidden" name="txtCedula" value="<?php echo $empleado['Cedula']; ?>">
+                  <input type="hidden" name="txtCorreo" value="<?php echo $empleado['Correo']; ?>">
+                  <input type="hidden" name="txtFoto" value="<?php echo $empleado['Foto']; ?>">
 
-      </table>
-      
+                  <input type="submit" value="Seleccionar" name="accion ">
+
+                </form>
+                
+
+              </td>
+
+            </tr>
+          <?php } ?>
+          
+        </table>
     </div>
   </div>
 
