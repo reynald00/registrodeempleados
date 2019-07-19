@@ -40,7 +40,10 @@
         echo "Presionaste el btnCancelar";
       break;
   }
-  
+    
+    $sentencia=$pdo->prepare("SELECT * FROM  `empleados` WHERE 1");
+    $sentencia->execute();
+    $listaEmpleados=$sentencia->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!doctype html>
@@ -97,6 +100,33 @@
       
     </form>
 
+    <div class="row">
+      <table>
+        
+        <thead>
+          <tr>
+            <th>Foto</th>
+            <th>Nombre Completo</th>
+            <th>Cédula o Pasaporte</th>
+            <th>Correo</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <?php foreach ($listaEmpleados as $empleado) {?>
+          <tr>
+              <td><?php echo $empleado['Foto']; ?></td>
+              <td><?php echo $empleado['Nombre']; ?> <?php echo $empleado['ApellidoPaterno']; ?> <?php echo $empleado['ApellidoMaterno']; ?></td>
+              <td><?php echo $empleado['Cedula']; ?></td>
+              <td><?php echo $empleado['Correo']; ?></td>
+              <td><input type="button" value="Seleccionar" name="accion"></td>
+          </tr>
+
+        <?php } ?>
+
+
+      </table>
+      
+    </div>
   </div>
 
   </body>
