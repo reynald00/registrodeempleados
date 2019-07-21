@@ -51,9 +51,20 @@
             $sentencia->bindParam(':id',$txtID);
 
             $sentencia->execute();
+
+            header("Location: index.php");
+
        echo "Presionaste el btnModificar";
       break;
       case "btnEliminar":
+        $sentencia=$pdo->prepare("DELETE FROM empleados WHERE id=:id");
+          
+           $sentencia->bindParam(':id',$txtID);
+
+            $sentencia->execute();
+
+            header("Location: index.php");
+
         echo "Presionaste el btnEliminar";
       break;
       case "btnCancelar":
@@ -125,7 +136,7 @@
 
     <div class="row">
         
-        <table>
+        <table class="table">
           <thead>
             <tr>
               <th>Foto</th>
@@ -156,6 +167,7 @@
                   <input type="hidden" name="txtFoto" value="<?php echo $empleado['Foto']; ?>">
 
                   <input type="submit" value="Seleccionar" name="accion ">
+                   <button value="btnEliminar" type="submit" name="accion">Eliminar</button>
 
                 </form>
                 
