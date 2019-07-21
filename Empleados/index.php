@@ -23,7 +23,7 @@
             $sentencia->bindParam(':ApellidoPaterno',$txtApellidoP);
             $sentencia->bindParam(':ApellidoMaterno',$txtApellidoM);
             $sentencia->bindParam(':Cedula',$txtCedula);
-            $sentencia->bindParam(':Correo',$txtCedula);
+            $sentencia->bindParam(':Correo',$txtCorreo);
             $sentencia->bindParam(':Foto',$txtFoto);
 
             $sentencia->execute();
@@ -32,21 +32,21 @@
       break;
       case "btnModificar":
 
-      $sentencia=$pdo->prepare("UPDATE empleados SET
-        Nombre=:Nombre,
-        ApellidoPaterno=:ApellidoPaterno,
-        ApellidoMaterno=:ApellidoMaterno,
-        Cedula=:Cedula,
-        Correo=:Correo,
-        Foto=:Foto WHERE
-        id=:id");
-            
+          $sentencia=$pdo->prepare("UPDATE empleados SET
+            Nombre=:Nombre,
+            ApellidoPaterno=:ApellidoPaterno,
+            ApellidoMaterno=:ApellidoMaterno,
+            Cedula=:Cedula,
+            Correo=:Correo,
+            Foto=:Foto WHERE
+            id=:id");
+                
 
             $sentencia->bindParam(':Nombre',$txtNombre);
             $sentencia->bindParam(':ApellidoPaterno',$txtApellidoP);
             $sentencia->bindParam(':ApellidoMaterno',$txtApellidoM);
             $sentencia->bindParam(':Cedula',$txtCedula);
-            $sentencia->bindParam(':Correo',$txtCedula);
+            $sentencia->bindParam(':Correo',$txtCorreo);
             $sentencia->bindParam(':Foto',$txtFoto);
             $sentencia->bindParam(':id',$txtID);
 
