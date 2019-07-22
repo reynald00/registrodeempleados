@@ -6,7 +6,7 @@
   $txtApellidoM=(isset($_POST['txtApellidoM']))?$_POST['txtApellidoM']:"";
   $txtCedula=(isset($_POST['txtCedula']))?$_POST['txtCedula']:"";
   $txtCorreo=(isset($_POST['txtCorreo']))?$_POST['txtCorreo']:"";
-  $txtFoto=(isset($_POST['txtFoto']))?$_POST['txtFoto']:"";
+  $txtFoto=(isset($_FILES['txtFoto']["name"]))?$_FILES['txtFoto']["name"]:"";
 
 
   $accion=(isset($_POST['accion']))?$_POST['accion']:"";
@@ -56,17 +56,18 @@
 
        echo "Presionaste el btnModificar";
       break;
-      case "btnEliminar":
-        $sentencia=$pdo->prepare("DELETE FROM empleados WHERE id=:id");
-          
-           $sentencia->bindParam(':id',$txtID);
 
-            $sentencia->execute();
+      case "btnEliminar":
+
+        $sentencia=$pdo->prepare("DELETE FROM empleados WHERE id=:id");
+        $sentencia->bindParam(':id',$txtID);
+        $sentencia->execute();
 
             header("Location: index.php");
 
         echo "Presionaste el btnEliminar";
       break;
+
       case "btnCancelar":
         echo "Presionaste el btnCancelar";
       break;
@@ -124,7 +125,7 @@
       <br>
 
       <label for="">Foto:</label>
-      <input type="text" name="txtFoto" value="<?php echo $txtFoto;?>" placeholder="" id="txtFoto" required="">
+      <input type="file" accept="image/*" name="txtFoto" value="<?php echo $txtFoto;?>" placeholder="" id="txtFoto" required="">
       <br>
 
       <button value="btnAgregar" type="submit" name="accion">Agregar</button>
@@ -137,6 +138,7 @@
     <div class="row">
         
         <table class="table">
+          
           <thead>
             <tr>
               <th>Foto</th>
@@ -149,7 +151,7 @@
 
           <?php foreach($listaEmpleados as $empleado){ ?>
             <tr>
-              <td><?php echo $empleado['Foto']; ?></td>
+              <td><img class="img-thumbnail" width="100px" src="../Imagenes/<?php echo $empleado['Foto']; ?>"/> </td>
               <td><?php echo $empleado['Nombre']; ?> <?php echo $empleado['ApellidoPaterno']; ?> <?php echo $empleado['ApellidoMaterno']; ?></td>
               <td><?php echo $empleado['Cedula']; ?></td>
               <td><?php echo $empleado['Correo']; ?></td>
