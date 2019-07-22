@@ -24,7 +24,17 @@
             $sentencia->bindParam(':ApellidoMaterno',$txtApellidoM);
             $sentencia->bindParam(':Cedula',$txtCedula);
             $sentencia->bindParam(':Correo',$txtCorreo);
-            $sentencia->bindParam(':Foto',$txtFoto);
+
+            $Fecha= new DateTime();
+            $nombreArchivo=($txtFoto!="")?$Fecha->getTimestamp()."_".$_FILES["txtFoto"]["name"]:"imagen.jpg";
+
+            $tmpFoto= $_FILES["txtFoto"]["tmp_name"];
+
+            if ($tmpFoto!="") {
+              move_uploaded_file($tmpFoto,"../Imagenes/".$nombreArchivo);
+            }
+
+            $sentencia->bindParam(':Foto',$nombreArchivo);
 
             $sentencia->execute();
 
