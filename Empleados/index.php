@@ -82,6 +82,18 @@
 
       case "btnEliminar":
 
+        $sentencia=$pdo->prepare("SELECT Foto FROM empleados WHERE id=:id");
+        $sentencia->bindParam(':id',$txtID);
+        $sentencia->execute();
+
+        $empleado=$sentencia->fetch(PDO::FETCH_LAZY);
+
+        if(isset($empleado["Foto"])){
+          if(file_exists("../Imagenes/".$empleado["Foto"])){
+            unlink("../Imagenes/".$empleado["Foto"]);
+          }
+        }
+
         $sentencia=$pdo->prepare("DELETE FROM empleados WHERE id=:id");
         $sentencia->bindParam(':id',$txtID);
         $sentencia->execute();
