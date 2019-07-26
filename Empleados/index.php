@@ -47,9 +47,7 @@
             ApellidoPaterno=:ApellidoPaterno,
             ApellidoMaterno=:ApellidoMaterno,
             Cedula=:Cedula,
-            Correo=:Correo,
-            Foto=:Foto WHERE
-            id=:id");
+            Correo=:Correo WHERE id=:id");
                 
 
             $sentencia->bindParam(':Nombre',$txtNombre);
@@ -57,10 +55,25 @@
             $sentencia->bindParam(':ApellidoMaterno',$txtApellidoM);
             $sentencia->bindParam(':Cedula',$txtCedula);
             $sentencia->bindParam(':Correo',$txtCorreo);
-            $sentencia->bindParam(':Foto',$txtFoto);
             $sentencia->bindParam(':id',$txtID);
-
             $sentencia->execute();
+
+            $Fecha= new DateTime();
+            $nombreArchivo=($txtFoto!="")?$Fecha->getTimestamp()."_".$_FILES["txtFoto"]["name"]:"imagen.jpg";
+            $tmpFoto= $_FILES["txtFoto"]["tmp_name"];
+
+            if ($tmpFoto!="") {
+              move_uploaded_file($tmpFoto,"../Imagenes/".$nombreArchivo);
+
+              $sentencia=$pdo->prepare("UPDATE empleados SET
+              Foto=:Foto WHERE id=:id");
+              $sentencia->bindParam(':Foto',$nombreArchivo);
+              $sentencia->bindParam(':id',$txtID);
+              $sentencia->execute();
+            }
+
+
+            
 
             header("Location: index.php");
 
