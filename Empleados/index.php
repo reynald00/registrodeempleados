@@ -42,14 +42,12 @@
       break;
       case "btnModificar":
 
-          $sentencia=$pdo->prepare("UPDATE empleados SET
+            $sentencia=$pdo->prepare("UPDATE empleados SET
             Nombre=:Nombre,
             ApellidoPaterno=:ApellidoPaterno,
             ApellidoMaterno=:ApellidoMaterno,
             Cedula=:Cedula,
             Correo=:Correo WHERE id=:id");
-                
-
             $sentencia->bindParam(':Nombre',$txtNombre);
             $sentencia->bindParam(':ApellidoPaterno',$txtApellidoP);
             $sentencia->bindParam(':ApellidoMaterno',$txtApellidoM);
@@ -65,15 +63,22 @@
             if ($tmpFoto!="") {
               move_uploaded_file($tmpFoto,"../Imagenes/".$nombreArchivo);
 
+              $sentencia=$pdo->prepare("SELECT Foto FROM empleados WHERE id=:id");
+              $sentencia->bindParam(':id',$txtID);
+              $sentencia->execute();
+              $empleado=$sentencia->fetch(PDO::FETCH_LAZY);
+              if(isset($empleado["Foto"])){
+                if(file_exists("../Imagenes/".$empleado["Foto"])){
+                  unlink("../Imagenes/".$empleado["Foto"]);
+                }
+              }
+
               $sentencia=$pdo->prepare("UPDATE empleados SET
               Foto=:Foto WHERE id=:id");
               $sentencia->bindParam(':Foto',$nombreArchivo);
               $sentencia->bindParam(':id',$txtID);
               $sentencia->execute();
             }
-
-
-            
 
             header("Location: index.php");
 
