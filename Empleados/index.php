@@ -38,7 +38,7 @@
 
             $sentencia->execute();
 
-        echo "Presionaste el btnAgregar";
+       
       break;
       case "btnModificar":
 
@@ -82,7 +82,7 @@
 
             header("Location: index.php");
 
-       echo "Presionaste el btnModificar";
+       
       break;
 
       case "btnEliminar":
@@ -105,11 +105,12 @@
 
             header("Location: index.php");
 
-        echo "Presionaste el btnEliminar";
+       
       break;
 
       case "btnCancelar":
-        echo "Presionaste el btnCancelar";
+        
+
       break;
   }
 
@@ -137,43 +138,76 @@
   <body>
 
     <div class="container">
-
+      <br>
     <form action="" method="post" enctype="multipart/form-data">
+      <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Empleado</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-row">
+                    <input type="hidden" name="txtID" value="<?php echo $txtID;?>" placeholder="" id="txtID" required="">
+
+                    <div class="form-group col-md-4">
+                      <label for="">Nombres:</label>
+                    <input type="text" class="form-control" name="txtNombre" value="<?php echo $txtNombre;?>" placeholder="" id="txtNombre" required="">
+                    <br>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="">Apellido Paterno:</label>
+                    <input type="text" class="form-control" name="txtApellidoP" value="<?php echo $txtApellidoP;?>" placeholder="" id="txtApellidoP" required="">
+                    <br>
+                    </div>
+                    <div class="form-group col-md-4">
+                    <label for="">Apellido Materno:</label>
+                    <input type="text" class="form-control" name="txtApellidoM" value="<?php echo $txtApellidoM;?>" placeholder="" id="txtApellidoM" required="">
+                    <br>
+                    </div>
       
-      <label for="">ID:</label>
-      <input type="text" name="txtID" value="<?php echo $txtID;?>" placeholder="" id="txtID" required="">
-      <br>
+                    <div class="form-group col-md-6">
+                    <label for="">Cédula:</label>
+                    <input type="text" class="form-control" name="txtCedula" value="<?php echo $txtCedula;?>" placeholder="" id="txtCedula" required="">
+                    <br>
+                    </div>
 
-      <label for="">Nombres:</label>
-      <input type="text" name="txtNombre" value="<?php echo $txtNombre;?>" placeholder="" id="txtNombre" required="">
-      <br>
+                    <div class="form-group col-md-6">
+                    <label for="">Correo:</label>
+                    <input type="email" class="form-control" name="txtCorreo" value="<?php echo $txtCorreo;?>" placeholder="" id="txtCorreo" required="">
+                    <br>
+                    </div>
 
-      <label for="">Apellido Paterno:</label>
-      <input type="text" name="txtApellidoP" value="<?php echo $txtApellidoP;?>" placeholder="" id="txtApellidoP" required="">
-      <br>
+                    <label for="">Foto:</label>
+                    <input type="file" class="form-control" accept="image/*" name="txtFoto" value="<?php echo $txtFoto;?>" placeholder="" id="txtFoto">
+                    <br>
 
-      <label for="">Apellido Materno:</label>
-      <input type="text" name="txtApellidoM" value="<?php echo $txtApellidoM;?>" placeholder="" id="txtApellidoM" required="">
-      <br>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button value="btnAgregar" class="btn btn-success" type="submit" name="accion">Agregar</button>
+                    <button value="btnModificar" class="btn btn-warning" type="submit" name="accion">Modificar</button>
+                    <button value="btnEliminar" class="btn btn-danger" type="submit" name="accion">Eliminar</button>
+                    <button value="btnCancelar" class="btn btn-primary" type="submit" name="accion">Cancelar</button>
 
-      <label for="">Cédula:</label>
-      <input type="text" name="txtCedula" value="<?php echo $txtCedula;?>" placeholder="" id="txtCedula" required="">
-      <br>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Nuevo Registro
+          </button>
 
-      <label for="">Correo:</label>
-      <input type="text" name="txtCorreo" value="<?php echo $txtCorreo;?>" placeholder="" id="txtCorreo" required="">
-      <br>
 
-      <label for="">Foto:</label>
-      <input type="file" accept="image/*" name="txtFoto" value="<?php echo $txtFoto;?>" placeholder="" id="txtFoto" required="">
-      <br>
 
-      <button value="btnAgregar" type="submit" name="accion">Agregar</button>
-      <button value="btnModificar" type="submit" name="accion">Modificar</button>
-      <button value="btnEliminar" type="submit" name="accion">Eliminar</button>
-      <button value="btnCancelar" type="submit" name="accion">Cancelar</button>
       
     </form>
+    <br>
 
     <div class="row">
         
