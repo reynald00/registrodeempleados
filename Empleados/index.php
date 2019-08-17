@@ -11,6 +11,10 @@
 
   $accion=(isset($_POST['accion']))?$_POST['accion']:"";
 
+  $accionAgregar="";
+  $accionModificar=$accionEliminar=$accionCancelar="disabled";
+  $mostrarModal=false;
+
   include ("../Conexion/conexion.php");
 
   switch($accion){
@@ -38,10 +42,10 @@
 
             $sentencia->execute();
 
+            header("Location: index.php");
        
       break;
       case "btnModificar":
-
             $sentencia=$pdo->prepare("UPDATE empleados SET
             Nombre=:Nombre,
             ApellidoPaterno=:ApellidoPaterno,
@@ -55,21 +59,23 @@
             $sentencia->bindParam(':Correo',$txtCorreo);
             $sentencia->bindParam(':id',$txtID);
             $sentencia->execute();
-
             $Fecha= new DateTime();
             $nombreArchivo=($txtFoto!="")?$Fecha->getTimestamp()."_".$_FILES["txtFoto"]["name"]:"imagen.jpg";
             $tmpFoto= $_FILES["txtFoto"]["tmp_name"];
-
             if ($tmpFoto!="") {
               move_uploaded_file($tmpFoto,"../Imagenes/".$nombreArchivo);
-
               $sentencia=$pdo->prepare("SELECT Foto FROM empleados WHERE id=:id");
               $sentencia->bindParam(':id',$txtID);
               $sentencia->execute();
               $empleado=$sentencia->fetch(PDO::FETCH_LAZY);
               if(isset($empleado["Foto"])){
                 if(file_exists("../Imagenes/".$empleado["Foto"])){
-                  unlink("../Imagenes/".$empleado["Foto"]);
+
+                  if($item['Foto']!="imagen.jpg"){
+
+                     unlink("../Imagenes/".$empleado["Foto"]);
+
+                  }
                 }
               }
 
@@ -93,7 +99,8 @@
 
         $empleado=$sentencia->fetch(PDO::FETCH_LAZY);
 
-        if(isset($empleado["Foto"])){
+        if(isset($empleado["Foto"])&&($item['Foto']!="imagen.jpg")){
+
           if(file_exists("../Imagenes/".$empleado["Foto"])){
             unlink("../Imagenes/".$empleado["Foto"]);
           }
@@ -104,12 +111,20 @@
         $sentencia->execute();
 
             header("Location: index.php");
-
-       
       break;
 
       case "btnCancelar":
         
+        header("Location: index.php");
+
+      break;
+
+      case "Seleccionar":
+
+        $accionAgregar="disabled";
+        $accionModificar=$accionEliminar=$accionCancelar="";
+
+        $mostrarModal=true;
 
       break;
   }
@@ -188,11 +203,12 @@
 
                   </div>
                 </div>
-                <div class="modal-footer">
-                    <button value="btnAgregar" class="btn btn-success" type="submit" name="accion">Agregar</button>
-                    <button value="btnModificar" class="btn btn-warning" type="submit" name="accion">Modificar</button>
-                    <button value="btnEliminar" class="btn btn-danger" type="submit" name="accion">Eliminar</button>
-                    <button value="btnCancelar" class="btn btn-primary" type="submit" name="accion">Cancelar</button>
+              <div class="modal-footer">
+
+                <button value="btnAgregar" <?php echo $accionAgregar;?> class="btn btn-success" type="submit" name="accion">Agregar</button>
+                <button value="btnModificar" <?php echo $accionModificar;?> class="btn btn-warning" type="submit" name="accion">Modificar</button>
+                <button value="btnEliminar" <?php echo $accionEliminar;?> class="btn btn-danger" type="submit" name="accion">Eliminar</button>
+                <button value="btnCancelar" <?php echo $accionCancelar;?> class="btn btn-primary" type="submit" name="accion">Cancelar</button>
 
                 </div>
               </div>
@@ -242,7 +258,7 @@
                   <input type="hidden" name="txtCorreo" value="<?php echo $empleado['Correo']; ?>">
                   <input type="hidden" name="txtFoto" value="<?php echo $empleado['Foto']; ?>">
 
-                  <input type="submit" value="Seleccionar" name="accion ">
+                  <input type="submit" value="Seleccionar" name="accion">
                    <button value="btnEliminar" type="submit" name="accion">Eliminar</button>
 
                 </form>
@@ -255,6 +271,13 @@
           
         </table>
     </div>
+
+  <?php if($mostrarModal){?>
+      <script>
+        $('#exampleModal').modal('show');
+      </script>
+   <?php }?>
+
   </div>
 
   </body>
