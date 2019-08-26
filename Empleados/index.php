@@ -71,7 +71,7 @@
               if(isset($empleado["Foto"])){
                 if(file_exists("../Imagenes/".$empleado["Foto"])){
 
-                  if($item['Foto']!="imagen.jpg"){
+                  if($item['Foto']=="imagen.jpg"){
 
                      unlink("../Imagenes/".$empleado["Foto"]);
 
@@ -99,7 +99,7 @@
 
         $empleado=$sentencia->fetch(PDO::FETCH_LAZY);
 
-        if(isset($empleado["Foto"])&&($item['Foto']!="imagen.jpg")){
+        if(isset($empleado["Foto"])&&($empleado['Foto']!="imagen.jpg")){
 
           if(file_exists("../Imagenes/".$empleado["Foto"])){
             unlink("../Imagenes/".$empleado["Foto"]);
@@ -123,8 +123,19 @@
 
         $accionAgregar="disabled";
         $accionModificar=$accionEliminar=$accionCancelar="";
-
         $mostrarModal=true;
+
+        $sentencia=$pdo->prepare("SELECT * FROM empleados WHERE id=:id");
+        $sentencia->bindParam(':id',$txtID);
+        $sentencia->execute();
+        $empleado=$sentencia->fetch(PDO::FETCH_LAZY);
+
+        $txtNombre=$empleado['Nombre'];
+        $txtApellidoP=$empleado['ApellidoPaterno'];
+        $txtApellidoM=$empleado['ApellidoMaterno'];
+        $txtCedula=$empleado['Cedula'];
+        $txtCorreo=$empleado['Correo'];
+        $txtFoto=$empleado['Foto'];
 
       break;
   }
@@ -196,11 +207,18 @@
                     <input type="email" class="form-control" name="txtCorreo" value="<?php echo $txtCorreo;?>" placeholder="" id="txtCorreo" required="">
                     <br>
                     </div>
-
+                    <div class="form-group col-md-12">
                     <label for="">Foto:</label>
+
+                    <?php if($txtFoto!=""){?>
+                      <br/>
+                      <img class="img-thumbnail rounded mx-auto d-block" width="100px" src="../Imagenes/<?php echo $txtFoto;?>" />
+                      <br/>
+                    <?php }?>
+
                     <input type="file" class="form-control" accept="image/*" name="txtFoto" value="<?php echo $txtFoto;?>" placeholder="" id="txtFoto">
                     <br>
-
+                  </div>
                   </div>
                 </div>
               <div class="modal-footer">
@@ -247,19 +265,11 @@
               <td><?php echo $empleado['Correo']; ?></td>
               
               <td>
-
                 <form action="" method="post">
-
                   <input type="hidden" name="txtID" value="<?php echo $empleado['ID']; ?>">
-                  <input type="hidden" name="txtNombre" value="<?php echo $empleado['Nombre']; ?>">
-                  <input type="hidden" name="txtApellidoP" value="<?php echo $empleado['ApellidoPaterno']; ?>">
-                  <input type="hidden" name="txtApellidoM" value="<?php echo $empleado['ApellidoMaterno']; ?>">
-                  <input type="hidden" name="txtCedula" value="<?php echo $empleado['Cedula']; ?>">
-                  <input type="hidden" name="txtCorreo" value="<?php echo $empleado['Correo']; ?>">
-                  <input type="hidden" name="txtFoto" value="<?php echo $empleado['Foto']; ?>">
 
-                  <input type="submit" value="Seleccionar" name="accion">
-                   <button value="btnEliminar" type="submit" name="accion">Eliminar</button>
+                  <input type="submit" value="Seleccionar" class="btn btn-info" name="accion">
+                  <button value="btnEliminar" type="submit" class="btn btn-danger" name="accion">Eliminar</button>
 
                 </form>
                 
