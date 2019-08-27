@@ -11,6 +11,8 @@
 
   $accion=(isset($_POST['accion']))?$_POST['accion']:"";
 
+  $error=array();
+
   $accionAgregar="";
   $accionModificar=$accionEliminar=$accionCancelar="disabled";
   $mostrarModal=false;
@@ -19,6 +21,27 @@
 
   switch($accion){
       case "btnAgregar":
+
+          if($txtNombre==""){
+            $error['Nombre']="Escribe el nombre";
+          }
+          if($txtApellidoP==""){
+            $error['ApellidoPaterno']="Escribe el Apellido";
+          }
+          if($txtApellidoM==""){
+            $error['ApellidoMaterno']="Escribe el Apellido";
+          }
+          if($txtCedula==""){
+            $error['Cedula']="Escribe la Cédula";
+          }
+          if($txtCorreo==""){
+            $error['Correo']="Escribe el Correo";
+          }
+
+          if(count($error)>0){
+            $mostrarModal=true;
+            break;
+          }
 
           $sentencia=$pdo->prepare("INSERT INTO empleados(Nombre,ApellidoPaterno,ApellidoMaterno,Cedula,Correo,Foto)
             VALUES (:Nombre,:ApellidoPaterno,:ApellidoMaterno,:Cedula,:Correo,:Foto)");
@@ -176,35 +199,53 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div class="modal-body">
-                  <div class="form-row">
-                    <input type="hidden" name="txtID" value="<?php echo $txtID;?>" placeholder="" id="txtID" required="">
+          <div class="modal-body">
+            <div class="form-row">
+                <input type="hidden" name="txtID" value="<?php echo $txtID;?>" placeholder="" id="txtID">
 
-                    <div class="form-group col-md-4">
-                      <label for="">Nombres:</label>
-                    <input type="text" class="form-control" name="txtNombre" value="<?php echo $txtNombre;?>" placeholder="" id="txtNombre" required="">
+        <div class="form-group col-md-4">
+          <label for="">Nombres:</label>
+
+          <input type="text" class="form-control <?php echo(isset($error['Nombre']))?"is-invalid":"";?>" name="txtNombre" value="<?php echo $txtNombre;?>" placeholder="" id="txtNombre">
+
+          <div class="invalid-feedback">
+              <?php echo (isset($error['Nombre']))?$error['Nombre']:"";?>                      
+          </div>
+
                     <br>
                     </div>
                     <div class="form-group col-md-4">
                       <label for="">Apellido Paterno:</label>
-                    <input type="text" class="form-control" name="txtApellidoP" value="<?php echo $txtApellidoP;?>" placeholder="" id="txtApellidoP" required="">
+                    <input type="text" class="form-control <?php echo(isset($error['ApellidoPaterno']))?"is-invalid":"";?>" name="txtApellidoP" value="<?php echo $txtApellidoP;?>" placeholder="" id="txtApellidoP">
+                    <div class="invalid-feedback">
+                      <?php echo (isset($error['ApellidoPaterno']))?$error['ApellidoPaterno']:"";?>                      
+                    </div>
                     <br>
                     </div>
                     <div class="form-group col-md-4">
                     <label for="">Apellido Materno:</label>
-                    <input type="text" class="form-control" name="txtApellidoM" value="<?php echo $txtApellidoM;?>" placeholder="" id="txtApellidoM" required="">
+                    <input type="text" class="form-control <?php echo(isset($error['ApellidoMaterno']))?"is-invalid":"";?>" name="txtApellidoM" value="<?php echo $txtApellidoM;?>" placeholder="" id="txtApellidoM">
+                    <div class="invalid-feedback">
+                      <?php echo (isset($error['ApellidoMaterno']))?$error['ApellidoMaterno']:"";?>                      
+                    </div>
                     <br>
                     </div>
       
                     <div class="form-group col-md-6">
                     <label for="">Cédula:</label>
-                    <input type="text" class="form-control" name="txtCedula" value="<?php echo $txtCedula;?>" placeholder="" id="txtCedula" required="">
+                    <input type="text" class="form-control <?php echo(isset($error['Cedula']))?"is-invalid":"";?>" name="txtCedula" value="<?php echo $txtCedula;?>" placeholder="" id="txtCedula">
+                    <div class="invalid-feedback">
+                      <?php echo (isset($error['Cedula']))?$error['Cedula']:"";?>                      
+                    </div>
                     <br>
                     </div>
 
                     <div class="form-group col-md-6">
                     <label for="">Correo:</label>
-                    <input type="email" class="form-control" name="txtCorreo" value="<?php echo $txtCorreo;?>" placeholder="" id="txtCorreo" required="">
+                    <input type="email" class="form-control <?php echo(isset($error['Correo']))?"is-invalid":"";?>" name="txtCorreo" value="<?php echo $txtCorreo;?>" placeholder="" id="txtCorreo" >
+                    <div class="invalid-feedback">
+                      <?php echo (isset($error['Correo']))?$error['Correo']:"";?>                      
+                    </div>
                     <br>
                     </div>
                     <div class="form-group col-md-12">
